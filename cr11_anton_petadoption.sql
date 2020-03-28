@@ -2,10 +2,10 @@
 -- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1
--- Время создания: Мар 28 2020 г., 16:21
--- Версия сервера: 10.4.11-MariaDB
--- Версия PHP: 7.4.3
+-- Host: 127.0.0.1
+-- Generation Time: Mar 28, 2020 at 04:31 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `cr11_anton_petadoption`
+-- Database: `cr11_anton_petadoption`
 --
 CREATE DATABASE IF NOT EXISTS `cr11_anton_petadoption` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `cr11_anton_petadoption`;
@@ -27,7 +27,7 @@ USE `cr11_anton_petadoption`;
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `animals`
+-- Table structure for table `animals`
 --
 
 CREATE TABLE `animals` (
@@ -43,7 +43,7 @@ CREATE TABLE `animals` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `animals`
+-- Dumping data for table `animals`
 --
 
 INSERT INTO `animals` (`animId`, `name`, `img`, `descr`, `type`, `website`, `hobbies`, `ad_date`, `loca`) VALUES
@@ -63,7 +63,7 @@ INSERT INTO `animals` (`animId`, `name`, `img`, `descr`, `type`, `website`, `hob
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `location`
+-- Table structure for table `location`
 --
 
 CREATE TABLE `location` (
@@ -76,16 +76,16 @@ CREATE TABLE `location` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `location`
+-- Dumping data for table `location`
 --
 
 INSERT INTO `location` (`locId`, `zip`, `city`, `address`, `loc_x`, `loc_y`) VALUES
-(1, 1010, 'Vienna', '', 48.2205998, 16.2399769);
+(1, 1010, 'Vienna', 'Praterstrasse 23', 48.2205998, 16.2399769);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -97,7 +97,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`userID`, `emailUsr`, `passUsr`, `nameUsr`, `user_type`) VALUES
@@ -106,57 +106,57 @@ INSERT INTO `users` (`userID`, `emailUsr`, `passUsr`, `nameUsr`, `user_type`) VA
 (3, 'lena@mail.com', '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5', 'Lena', 'user');
 
 --
--- Индексы сохранённых таблиц
+-- Indexes for dumped tables
 --
 
 --
--- Индексы таблицы `animals`
+-- Indexes for table `animals`
 --
 ALTER TABLE `animals`
   ADD PRIMARY KEY (`animId`),
   ADD KEY `loca` (`loca`);
 
 --
--- Индексы таблицы `location`
+-- Indexes for table `location`
 --
 ALTER TABLE `location`
   ADD PRIMARY KEY (`locId`);
 
 --
--- Индексы таблицы `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userID`),
   ADD UNIQUE KEY `emailUsr` (`emailUsr`);
 
 --
--- AUTO_INCREMENT для сохранённых таблиц
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT для таблицы `animals`
+-- AUTO_INCREMENT for table `animals`
 --
 ALTER TABLE `animals`
   MODIFY `animId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT для таблицы `location`
+-- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
   MODIFY `locId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT для таблицы `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Ограничения внешнего ключа сохраненных таблиц
+-- Constraints for dumped tables
 --
 
 --
--- Ограничения внешнего ключа таблицы `animals`
+-- Constraints for table `animals`
 --
 ALTER TABLE `animals`
   ADD CONSTRAINT `animals_ibfk_1` FOREIGN KEY (`loca`) REFERENCES `location` (`locId`);

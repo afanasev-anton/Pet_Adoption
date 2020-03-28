@@ -4,13 +4,13 @@ session_start();
 if (isset($_SESSION['user'])) {
 	$_SESSION['entr'] = 'logout';
 }
-if ($_SESSION['userType'] == 'admin'){
+if (isset($_SESSION['userType']) == 'admin'){
 	//header("Location: manager.php");
 	$link = 'manager.php';
 }
 require_once 'dbconnect.php';
 require_once 'classes.php';
-$list = array(); //array with list of media
+$list = array(); //array with list of animals
 
 $queryList = mysqli_query($conn,"SELECT * FROM animals
 		JOIN location ON animals.loca = location.locId");

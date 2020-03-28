@@ -10,7 +10,23 @@ require_once 'classes.php';
 //require_once 'process.php';
 
 // make a list of Data items to work with
+$list = array(); //array with list of media
 
+$queryList = mysqli_query($conn,"SELECT * FROM animals
+        JOIN location ON animals.loca = location.locId");
+
+if($queryList->num_rows > 0){
+    $rows = $queryList->fetch_all(MYSQLI_ASSOC);
+    foreach ($rows as $value){
+
+        array_push($list,new Animal ($value['animId'],$value['name'],$value['img'],$value['descr'],$value['website'],$value['hobbies'],$value['ad_date'],$value['zip'],$value['city'],$value['address'],$value['loc_x'],$value['loc_y'],$value['type']) );
+    }
+    $_SESSION['actMsgTyp'] = "success";
+    $_SESSION['actMsg'] = "The list is ready, push the button";
+} else {
+    $_SESSION['actMsgTyp'] = "danger";
+    $_SESSION['actMsg'] = "There is nothing in Database";
+}
 
 
  ?>
@@ -55,8 +71,24 @@ require_once 'classes.php';
 				</div>
 			</div>
 			<div class="row p-3">
-				<div id="anims" class="collapse">
-					
+				<div id="anims" class="w-100 collapse">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>website</th>
+								<th>hobbies</th>
+								<th>adopt date</th>
+								<th>type</th>
+								<th>Actions</th>
+							</tr>
+						</thead>					
+						<?php foreach ($list as $obj) {
+							$res = $obj->printTable();
+							echo $res;
+						} ?>
+						
+					</table>
 				</div>
 			</div>
 			<div class="row p-3">

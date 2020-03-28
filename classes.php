@@ -85,5 +85,18 @@ class Animal
     				<p>'.$addr.'</p>
     			</div>';
     }
+    public function printTable(){
+        return '<tr><td>'.$this->name.'</td>
+                <td>'.$this->website.'</td>
+                <td>'.$this->hobbies.'</td>
+                <td>'.$this->adDate.'</td>
+                <td>'.$this->type.'</td>
+                <td>
+                    <div class="btn-group">
+                        <a href="manager.php?edit=mdId'.$this->animId.'" class="btn btn-warning">Edit</a>
+                        <a href="manager.php?delete='.$this->animId.'" class="btn btn-danger">Delete</a>
+                    </div>
+                </td></tr>';
+    }
 }
 ?>
