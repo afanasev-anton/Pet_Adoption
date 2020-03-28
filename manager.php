@@ -7,10 +7,10 @@ if($_SESSION['userType']!='admin'){
 // **
 require_once 'dbconnect.php';
 require_once 'classes.php';
-//require_once 'process.php';
+require_once 'action.php';
 
 // make a list of Data items to work with
-$list = array(); //array with list of media
+$list = array(); //array with list of animals
 
 $queryList = mysqli_query($conn,"SELECT * FROM animals
         JOIN location ON animals.loca = location.locId");
@@ -21,13 +21,28 @@ if($queryList->num_rows > 0){
 
         array_push($list,new Animal ($value['animId'],$value['name'],$value['img'],$value['descr'],$value['website'],$value['hobbies'],$value['ad_date'],$value['zip'],$value['city'],$value['address'],$value['loc_x'],$value['loc_y'],$value['type']) );
     }
-    $_SESSION['actMsgTyp'] = "success";
-    $_SESSION['actMsg'] = "The list is ready, push the button";
+    //$_SESSION['actMsgTyp'] = "success";
+    //$_SESSION['actMsg'] = "The list is ready, push the button";
 } else {
     $_SESSION['actMsgTyp'] = "danger";
-    $_SESSION['actMsg'] = "There is nothing in Database";
+    $_SESSION['actMsg'] = "There is nothing in Database/animals";
 }
 
+$listUsr = array(); //array with list of animals
+$queryUsr = mysqli_query($conn,"SELECT * FROM users
+        WHERE user_type='user'");
+if($queryUsr->num_rows > 0){
+    $rows = $queryUsr->fetch_all(MYSQLI_ASSOC);
+    foreach ($rows as $value){
+
+        array_push($listUsr,new User($value['userID'],$value['nameUsr'],$value['emailUsr']));
+    }
+    //$_SESSION['actMsgTyp'] = "success";
+    //$_SESSION['actMsg'] = "The list is ready, push the button";
+} else {
+    $_SESSION['actMsgTyp'] = "danger";
+    $_SESSION['actMsg'] = "There is nothing in Database/users";
+}
 
  ?>
 <!DOCTYPE html>
@@ -59,18 +74,18 @@ if($queryList->num_rows > 0){
 			</ul>
 		</nav>
 		<div class="container">
-			<div class="row p-3">
-				<div class="col p-3">
+			<div class="row p-2">
+				<div class="col">
 					<a class="w-100 btn btn-primary" href="#" data-toggle="collapse" data-target="#anims">All animals</a>
 				</div>
-				<div class="col p-3">
+				<div class="col px-3">
 					<a class="w-100 btn btn-primary" href="#" data-toggle="collapse" data-target="#usrs">Users</a>
 				</div>
-				<div class="col p-3">
+				<div class="col">
 					<a class="w-100 btn btn-success" href="#" data-toggle="collapse" data-target="#add">Add</a>
 				</div>
 			</div>
-			<div class="row p-3">
+			<div class="row p-2">
 				<div id="anims" class="w-100 collapse">
 					<table class="table">
 						<thead>
@@ -78,7 +93,7 @@ if($queryList->num_rows > 0){
 								<th>Name</th>
 								<th>website</th>
 								<th>hobbies</th>
-								<th>adopt date</th>
+								<th>available<br>for adoption</th>
 								<th>type</th>
 								<th>Actions</th>
 							</tr>
@@ -91,14 +106,59 @@ if($queryList->num_rows > 0){
 					</table>
 				</div>
 			</div>
-			<div class="row p-3">
-				<div id="usrs" class="collapse">
-					
+			<div class="row p-2">
+				<div id="usrs" class="w-100 collapse">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Actions</th>
+							</tr>
+						</thead>					
+						<?php foreach ($listUsr as $obj) {
+							$res = $obj->printTable();
+							echo $res;
+						} ?>
+						
+					</table>
 				</div>
 			</div>
-			<div class="row p-3">
-				<div id="add" class="collapse">
-					
+			<div class="row p-2">
+				<div id="add" class="w-100 collapse">
+					<form class="w-75" method="post" action="action.php">
+						<div class="form-group">
+							<label>Name:</label>
+							<input type="text" class="form-control" name="name" value = "<?php //echo $name ?>">
+						</div>
+		    			<div class="form-group">
+		    				<label>Website:</label>
+							<input type="text" class="form-control" name="wsite" value = "<?php //echo $aName ?>">
+						</div>
+						<div class="form-group">
+		    				<label>Hobbies:</label>
+							<input type="text" class="form-control" name="hob" value = "<?php //echo $aSname ?>">
+						</div>
+						<div class="form-group">
+		    				<label>Adopt date:</label>
+							<input type="text" class="form-control" name="aDate" value = "<?php // echo $aSname ?>">
+						</div>
+						<div class="form-group">
+		    				<label>Description:</label>
+							<input type="text" class="form-control" name="descr" value = "<?php //echo $aSname ?>">
+						</div>
+						<div class="form-group">
+		    				<label>Type:</label>
+							<select class="form-control" name="type">
+								<option value="sm">Small</option>
+								<option value="lg">Large</option>
+								<option value="sen">Senior</option>
+							</select>
+						</div>
+						
+		    			<button class="btn btn-dark" type="submit" name="btn-add">Add new animal</button>
+	    			</form>
 				</div>
 			</div>
 		</div>

@@ -99,4 +99,31 @@ class Animal
                 </td></tr>';
     }
 }
+
+class User
+{
+    protected $userID;
+    protected $userName;
+    protected $userEmail;
+
+    public function __construct($userID,$nameUsr,$emailUsr){
+        $this->userID = $userID;
+        $this->userName = $nameUsr;
+        $this->userEmail = $emailUsr;
+    }
+
+    public function printTable(){
+        return '<tr><td>'.$this->userID.'</td>
+                <td>'.$this->userName.'</td>
+                <td>'.$this->userEmail.'</td>
+                <td>
+                    <div class="btn-group">
+                        <a href="manager.php?edit=mdId'.$this->userID.'" class="btn btn-warning">Edit</a>
+                        <a href="manager.php?delete='.$this->userID.'" class="btn btn-danger">Delete</a>
+                    </div>
+                </td></tr>';
+    }
+
+
+}
 ?>
