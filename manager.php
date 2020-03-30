@@ -4,6 +4,10 @@ session_start();
 if($_SESSION['userType']!='admin'){
 	header("Location: index.php");
 }
+//
+//unset($_SESSION['actMsg']);
+//unset($_SESSION['actMsgTyp']);
+
 // **
 require_once 'dbconnect.php';
 require_once 'classes.php';
@@ -82,7 +86,13 @@ if($queryUsr->num_rows > 0){
 					<a class="w-100 btn btn-primary" href="#" data-toggle="collapse" data-target="#usrs">Users</a>
 				</div>
 				<div class="col">
-					<a class="w-100 btn btn-success" href="#" data-toggle="collapse" data-target="#add">Add</a>
+					<?php 
+						if (isset($_GET['edit'])) {
+						 	echo '<a class="w-100 btn btn-success" href="#" data-toggle="collapse" data-target="#add">Update</a>';
+						 } else {
+						 	echo '<a class="w-100 btn btn-success" href="#" data-toggle="collapse" data-target="#add">Add</a>';
+						}?>
+					<!--<a class="w-100 btn btn-success" href="#" data-toggle="collapse" data-target="#add">Add</a>-->
 				</div>
 			</div>
 			<div class="row p-2">
@@ -128,25 +138,28 @@ if($queryUsr->num_rows > 0){
 			<div class="row p-2">
 				<div id="add" class="w-100 collapse">
 					<form class="w-75" method="post" action="action.php">
+						<input type="hidden" name="ID" value = "<?php echo $ID ?>">
 						<div class="form-group">
 							<label>Name:</label>
-							<input type="text" class="form-control" name="name" value = "<?php //echo $name ?>">
+							<input type="text" class="form-control" name="name" value = "<?php echo $name ?>">
 						</div>
 		    			<div class="form-group">
 		    				<label>Website:</label>
-							<input type="text" class="form-control" name="wsite" value = "<?php //echo $aName ?>">
+							<input type="text" class="form-control" name="wsite" value = "<?php echo $wsite ?>">
 						</div>
 						<div class="form-group">
 		    				<label>Hobbies:</label>
-							<input type="text" class="form-control" name="hob" value = "<?php //echo $aSname ?>">
+							<input type="text" class="form-control" name="hob" value = "<?php echo $hob ?>">
 						</div>
 						<div class="form-group">
 		    				<label>Adopt date:</label>
-							<input type="text" class="form-control" name="aDate" value = "<?php // echo $aSname ?>">
+							<input type="text" class="form-control" name="aDate" value = "<?php echo $aDate ?>">
 						</div>
 						<div class="form-group">
 		    				<label>Description:</label>
-							<input type="text" class="form-control" name="descr" value = "<?php //echo $aSname ?>">
+							<textarea type="text" class="form-control" name="descr" rows="6">
+								<?php echo $descr ?>
+							</textarea>
 						</div>
 						<div class="form-group">
 		    				<label>Type:</label>
@@ -157,7 +170,14 @@ if($queryUsr->num_rows > 0){
 							</select>
 						</div>
 						
-		    			<button class="btn btn-dark" type="submit" name="btn-add">Add new animal</button>
+						<?php 
+						if (isset($_GET['edit'])) {
+						 	echo '<button class="btn btn-dark" type="submit" name="btn-upd">Update</button>';
+						 } else {
+						 	echo '<button class="btn btn-dark" type="submit" name="btn-add">Add new animal</button>';
+						 }?>
+		    			<!--
+		    			<button class="btn btn-dark" type="submit" name="btn-add">Add new animal</button>-->
 	    			</form>
 				</div>
 			</div>

@@ -41,6 +41,8 @@ class Animal
     }
     public function getType(){return $this->type;}
     public function getId(){return $this->animId;}
+    public function getX(){return $this->loc_x;}
+    public function getY(){return $this->loc_y;}
     public function printCards()
     {
         if ($this->type == 'sm') {
@@ -75,15 +77,17 @@ class Animal
             $extra = '<p class="card-text">Looking for home since: '.$this->adDate.'</p>';
         }
         $addr = $this->zip.' '.$this->city.', '.$this->address;
-        return '<div class="col-3 p-3">
+        return '<div class="col-4 p-3">
 					<img class="img-fluid" src="'.$this->img.'">
+
     			</div>
-    			<div class="col-9 p-3">
+    			<div class="col-8 p-3">
     				<h4>'.$this->name.'</h4>
     				<h3>'.$extra.'</h3>
     				<p>'.$this->descr.'</p>
-    				<p>'.$addr.'</p>
-    			</div>';
+    				<p>'.$addr.'</p>                    
+    			</div>
+                <div class="mx-auto" id="map" style="width:60vw;height:60vh"></div>';
     }
     public function printTable(){
         return '<tr><td>'.$this->name.'</td>
@@ -93,7 +97,7 @@ class Animal
                 <td>'.$this->type.'</td>
                 <td>
                     <div class="btn-group">
-                        <a href="manager.php?edit=mdId'.$this->animId.'" class="btn btn-warning">Edit</a>
+                        <a href="manager.php?edit='.$this->animId.'#add" class="btn btn-warning">Edit</a>
                         <a href="manager.php?delete='.$this->animId.'" class="btn btn-danger">Delete</a>
                     </div>
                 </td></tr>';
@@ -118,7 +122,7 @@ class User
                 <td>'.$this->userEmail.'</td>
                 <td>
                     <div class="btn-group">
-                        <a href="manager.php?edit=mdId'.$this->userID.'" class="btn btn-warning">Edit</a>
+                        <a href="manager.php?edit='.$this->userID.'" class="btn btn-warning">Edit</a>
                         <a href="manager.php?delete='.$this->userID.'" class="btn btn-danger">Delete</a>
                     </div>
                 </td></tr>';

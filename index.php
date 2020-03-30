@@ -83,13 +83,49 @@ $queryList = mysqli_query($conn,"SELECT * FROM animals
 	    				
 	    				$res=$val->printDetails();
 	    				echo $res;
-	    			}	    			
+	    				$lat = $val->getX();
+	    				$lng = $val->getY();
+	    				echo '<script type="text/javascript">
+			    				var map;
+			    				function initMap() {
+			    					map = new google.maps.Map(document.getElementById("map"), {
+			    						center: {lat: '.$lat.', lng: '.$lng.'},
+			    						zoom: 12
+			    						});
+			    					var marker = new google.maps.Marker({
+                                		position: {lat: '.$lat.', lng: '.$lng.'}, 
+                                		map: map,
+                                		title: "here"
+                            		});
+                            		marker.setMap(map);
+			    				}
+			    			</script>';
+ 	    			}	    			
 	            }
             }
             ?>
     	</div>
 		
 	</div>
+<!-- SCRIPTS ZONE -->
+<!--<script src="scripts/map.js" type="text/javascript" charset="utf-8" async defer></script>
+<script type="text/javascript">
+	var map;
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: 48.2335427, lng: 16.412597},
+			zoom: 15
+		});
+	}
+</script>-->
+
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtjaD-saUZQ47PbxigOg25cvuO6_SuX3M&callback=initMap" async defer></script>
 </body>
 </html>
 <?php ob_end_flush(); ?>

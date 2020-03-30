@@ -35,7 +35,7 @@ if (isset($_POST['btn-add'])) {
 		} else {
 			$_SESSION['actMsgTyp'] = "danger";
 			$_SESSION['actMsg'] = "Something went wrong, try again later...";
-		}		
+		}
 	}
 	header("Location: manager.php");
 }
@@ -56,96 +56,68 @@ if (isset($_GET['delete'])) {
 	header("Location: manager.php");
 }
 // EDIT item
-/*$classHide = 'd-none';
-$classShow = 'd-block';
+
 if (isset($_GET['edit'])) {
-	$mdId = $_GET['edit'];
+	$animId = $_GET['edit'];
 
+	/*$name = trim($_POST['name']);
+	$wsite = trim($_POST['wsite']);
+    $hob = trim($_POST['hob']);
+    $aDate = trim($_POST['aDate']);
+    $descr = trim($_POST['descr']);
+    $type = trim($_POST['type']);*/
 
-	$classHide = 'd-block';
-	$classShow = 'd-none';
-
-	$editSql = "SELECT media.mdId, media.title, authors.name as aName, authors.surname as aSname, publishers.name as pName, media.type
-		FROM media
-		LEFT JOIN author_media ON media.mdId = author_media.mdId
-		LEFT JOIN authors ON author_media.authId = authors.authId
-		LEFT JOIN publishers ON media.publisher = publishers.pubId
-		WHERE media.mdId=".$mdId;
+	$editSql = "SELECT * FROM animals
+		JOIN location ON animals.loca = location.locId
+		WHERE animals.animId=".$animId;
 	$editRes = mysqli_query($conn, $editSql);
 	if ($editRes) {
 		$editRow = $editRes-> fetch_assoc();
-		$edMdId = $editRow['mdId'];
-		$edTitle = $editRow['title'];
-		$edAname = $editRow['aName'];
-		$edAsname = $editRow['aSname'];
-		$edPname = $editRow['pName'];
-		$edType = $editRow['type'];
-
+		$ID = $animId;
+		$name = $editRow['name'];
+		$wsite = $editRow['website'];
+		$hob = $editRow['hobbies'];
+		$aDate = $editRow['ad_date'];
+		$descr = $editRow['descr'];
+		$type = $editRow['type'];
 	}
-
 }
 // UPDATE
 $error = false ;
 if (isset($_POST['btn-upd'])) {
-	$title = trim($_POST['title']);
-	$aName = trim($_POST['aName']);
-    $aSname = trim($_POST['aSname']);
-    $pName = trim($_POST['pName']);
+	$ID = trim($_POST['ID']);
+	$name = trim($_POST['name']);
+	$wsite = trim($_POST['wsite']);
+    $hob = trim($_POST['hob']);
+    $aDate = trim($_POST['aDate']);
+    $descr = trim($_POST['descr']);
     $type = trim($_POST['type']);
 
 	// basic validation
-	if (empty($title)||empty($aName)||empty($aSname)||empty($pName)||empty($type)) {
+	if (empty($name)||empty($descr)||empty($type)) {
 		$error = true ;
-		$_SESSION['actMsg'] = 'Empty Field, fill it!';
-		$_SESSION['actMsgTyp'] = 'danger';		
+		$_SESSION['actMsgTyp'] = "warning";
+		$_SESSION['actMsg'] = "Please fill the form";
 	}
 
 	if( !$error ) {
+
+		$sql = "UPDATE animals SET name='$name', website='$wsite', hobbies='$hob',ad_date='$aDate',descr='$descr',type='$type' WHERE animId='$ID'";
+		$res = mysqli_query($conn, $sql);
 		
-
-		$sqlAuth = "UPDATE authors SET name='$aName', surname='$aSname' WHERE name='$edAname' AND surname='$edAsname'";
-		$res = mysqli_query($conn, $sqlAuth);
 		if ($res) {
-			$msgTyp = "success";
-			$msg = "Author has been updated";
-			$_SESSION['actMsg'] = $msg;
-			$_SESSION['actMsgTyp'] = $msgTyp;
+			$_SESSION['actMsgTyp'] = "success";
+			$_SESSION['actMsg'] = "Animal has been updated";				
 			
-			unset($aName);
-			unset($aSname);
-			
-			$sqlPubl = "UPDATE publishers SET name='$pName' WHERE name='$edPname'";
-			$res = mysqli_query($conn, $sqlPubl);
-
-			if ($res) {
-
-				unset($pName);
-
-				$sqlMedia= "UPDATE media SET title='$title', type='$type' WHERE title=".$edTitle;
-				$res = mysqli_query($conn, $sqlMedia);
-
-				if ($res) {
-					
-					unset($title);
-					unset($type);
-
-					$_SESSION['actMsg'] = "Media (".$edTitle.") have been updated";
-					$_SESSION['actMsgTyp'] = "success";
-
-					header("Location: manager.php");
-				} else {
-					$_SESSION['actMsgTyp'] = "danger";
-					$_SESSION['actMsg'] = "Something went wrong, try again later...".$edTitle;
-				}
-			} else {
-				$_SESSION['actMsgTyp'] = "danger";
-				$_SESSION['actMsg'] = "Something went wrong, try again later... (1)";
-			}
 		} else {
 			$_SESSION['actMsgTyp'] = "danger";
-			$_SESSION['actMsg'] = "Something went wrong, try again later... (2)";
+			$_SESSION['actMsg'] = "Something went wrong, try again later...";
 		}
 	}
-}*/
+	header("Location: manager.php");
+
+	//$sqlAuth = "UPDATE authors SET name='$aName', surname='$aSname' WHERE name='$edAname' AND surname='$edAsname'";
+		
+}
 
  ?>
